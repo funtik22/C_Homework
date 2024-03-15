@@ -10,10 +10,11 @@
 #include <vector>
 
 
+
 Matrix Matrix::Identity(int _n, int _m){
     Matrix matrix(_n, _m);
     for(int i = 0; i<std::min(_n, _m); i++){
-        matrix.array2D[i][i]= 1;
+        matrix.array2D[i*matrix.m+i]= 1;
     }
     return matrix;
 }
@@ -31,7 +32,7 @@ Matrix Matrix::RandomDouble(int _n, int _m){
     std::uniform_real_distribution<double> urd(0, 5);
     for(int i = 0; i<_n; i++){
        for(int j = 0; j<_m; j++){
-            matrix.array2D[i][j] = urd(gen);
+            matrix.array2D[i*matrix.m+j] = urd(gen);
        }
     }
     return matrix;
@@ -43,7 +44,7 @@ Matrix Matrix::RandomInt(int _n, int _m){
     std::srand(time(NULL));
     for(int i = 0; i<_n; i++){
        for(int j = 0; j<_m; j++){
-            matrix.array2D[i][j] = std::rand()%5;
+            matrix.array2D[i*matrix.m+j] = std::rand()%5;
        }
     }
     return matrix;
@@ -102,10 +103,10 @@ Matrix::Matrix(): n(), m(), array2D(){}
 
 
 Matrix::Matrix(const Matrix &other){
-    array2D = new double *[n];
+    array2D = new double [n*m];
     for(int i = 0; i<other.n; i++){
         for(int j = 0; j<other.m; j++){
-            array2D[i][j] = other.array2D[i][j];
+            array2D[i*other.m+j] = other.array2D[i*other.m+j];
         }
     }
     n = other.n;
@@ -125,22 +126,20 @@ Matrix::Matrix(Matrix&& other) {
 
 
 Matrix::Matrix(int _n, int _m): n(_n), m(_m){
-    array2D = new double *[n];
+    array2D = new double [n*m];
     for(int i = 0; i<n; i++){
-        array2D[i] = new double [m];
         for(int j = 0; j<m; j++){
-            array2D[i][j] = 0;
+            array2D[i*m+j] = 0;
         }
     }
 }
 
 
 Matrix::Matrix(int _n, int _m, double val): n(_n), m(_m){
-    array2D = new double *[n];
+    array2D = new double [n*m];
     for(int i = 0; i<n; i++){
-        array2D[i] = new double [m];
         for(int j = 0; j<m; j++){
-            array2D[i][j] = val;
+            array2D[i*m+j] = val;
         }
     }
 }
@@ -149,11 +148,10 @@ Matrix::Matrix(int _n, int _m, double val): n(_n), m(_m){
 Matrix::Matrix(std::vector<std::vector<double>> matrix){
     n = matrix.size();
     m = matrix[0].size();
-    array2D = new double *[n];
+    array2D = new double [n*m];
     for(int i = 0; i<n; i++){
-        array2D[i] = new double [m];
         for(int j = 0; j<m; j++){
-            array2D[i][j] = matrix[i][j];
+            array2D[i*m+j] = matrix[i][j];
         }
     }
 }
@@ -162,16 +160,15 @@ Matrix::Matrix(std::vector<std::vector<double>> matrix){
 Matrix::Matrix(std::initializer_list<std::initializer_list<double>> list){
     n = list.size();
     m = list.begin()->size();
-    array2D = new double *[n];
+    array2D = new double [n*m];
     int i = 0, j = 0; 
     for(std::initializer_list<double> line: list){
         if(line.size()!=m){
             throw std::runtime_error("error in list");
         }
-        array2D[i] = new double[m];
         j = 0;
         for(double element: line){
-            array2D[i][j] = element;
+            array2D[i*m+j] = element;
             j++;
         }
         i++;
@@ -180,9 +177,6 @@ Matrix::Matrix(std::initializer_list<std::initializer_list<double>> list){
 
 
 Matrix::~Matrix() {
-    for(int i = 0; i<n; i++){
-        delete [] array2D[i];
-    }
     delete [] array2D;
 }
 
@@ -194,7 +188,7 @@ Matrix Matrix::sum(const Matrix& other) const{
         }
         for(int i = 0; i<n; i++){
             for(int j = 0; j<m; j++){
-                matrix.array2D[i][j] = array2D[i][j] + other.array2D[i][j];
+                matrix.array2D[i*m+j] = array2D[i*m+j] + other.array2D[i*m+j];
             }
         }
     return matrix;
@@ -208,7 +202,7 @@ Matrix Matrix::sub(const Matrix& other) const{
         }
         for(int i = 0; i<n; i++){
             for(int j = 0; j<m; j++){
-                matrix.array2D[i][j] = array2D[i][j] - other.array2D[i][j];
+                matrix.array2D[i*m+j] = array2D[i*m+j] - other.array2D[i*m+j];
             }
         }
     return matrix;
@@ -223,7 +217,7 @@ Matrix Matrix::mul(const Matrix& other) const{
     for(int i = 0; i<n; i++){
         for(int j = 0; j<other.m; j++){
             for(int x = 0; x<m; x++){
-                matrix.array2D[i][j] = matrix.array2D[i][j] + array2D[i][x] * other.array2D[x][j];
+                matrix.array2D[i*m+j] = matrix.array2D[i*m+j] + array2D[i*m+x] * other.array2D[x*m+j];
             }
 
         }
@@ -236,7 +230,7 @@ Matrix Matrix::mul(double d) const{
     Matrix matrix(n, m);
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            matrix.array2D[i][j] = d * array2D[i][j];  
+            matrix.array2D[i*m+j] = d * array2D[i*m+j];  
         }
     }
     return matrix;
@@ -256,7 +250,7 @@ Matrix Matrix::div(double d) const{
     Matrix matrix(n, m);
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            matrix.array2D[i][j] = array2D[i][j]/d;
+            matrix.array2D[i*m+j] = array2D[i*m+j]/d;
         }
     }
     return matrix;
@@ -267,7 +261,7 @@ Matrix Matrix::T() const{
     Matrix trans(m, n);
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            trans.array2D[j][i] = array2D[i][j];
+            trans.array2D[j*n+i] = array2D[i*m+j];
         }
     }
     return trans;
@@ -321,7 +315,7 @@ Matrix Matrix::inverse() const{
     Matrix inv = this->T();
     for(int i  = 0; i<n; i++){
         for(int j = 0; j<n; j++){
-            attached.array2D[i][j] = inv.minor(i, j).det() *  pow(-1, i+j);
+            attached.array2D[i*m+j] = inv.minor(i, j).det() *  pow(-1, i+j);
         }
     }
     return attached.div(this->det());
@@ -332,11 +326,11 @@ Matrix Matrix::inverse() const{
      if(n!=m){
          throw std::runtime_error("The matrix isn't square");
      }
-     if(n == 1) return array2D[0][0];
-     if (n == 2) return array2D[0][0]*array2D[1][1] - array2D[1][0]*array2D[0][1];
+     if(n == 1) return array2D[0];
+     if (n == 2) return array2D[0]*array2D[m+1] - array2D[m]*array2D[1];
      double det = 0; 
      for(int j = 0; j<n; j++){
-        det += array2D[0][j] * this->minor(0, j).det() * pow(-1, j);
+        det += array2D[j] * this->minor(0, j).det() * pow(-1, j);
      }
      return det;
  }
@@ -354,7 +348,7 @@ Matrix Matrix::minor(int x, int y) const{
             if(j == y){
                 continue;
             }
-            matrix.array2D[_i][_j] = array2D[i][j];
+            matrix.array2D[_i*(n-1)+_j] = array2D[i*m+j];
             _j++;
         }
         _i++;
@@ -367,7 +361,7 @@ double Matrix::sumElements() const{
     double sum = 0;
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            sum+=array2D[i][j];
+            sum+=array2D[i*m+j];
         }
     }
     return sum;
@@ -382,7 +376,7 @@ void Matrix::print() const{
     std::cout.precision(4);
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            std::cout<<std::setw(6)<<array2D[i][j]<<" ";
+            std::cout<<std::setw(6)<<array2D[i*m+j]<<" ";
         }
         std::cout<<std::endl;
     }
@@ -396,7 +390,7 @@ std::string Matrix::to_string() const{
     }
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            out=out + std::to_string(array2D[i][j]) + " ";
+            out=out + std::to_string(array2D[i*m+j]) + " ";
         }
         out+='\n';
     }
@@ -423,7 +417,7 @@ bool Matrix::operator==(const Matrix &other) const{
     }
     for(int i = 0; i<n; i++){
         for(int j = 0; j<m; j++){
-            if(array2D[i][j] != other.array2D[i][j]){
+            if(array2D[i*m+j] != other.array2D[i*m+j]){
                 out = false;
             }
         }
@@ -441,7 +435,7 @@ double Matrix::operator()(int i, int j) const{
     if(i>=n || j>=m){
         throw std::out_of_range("out of range of matrix");
     }
-    return array2D[i][j];
+    return array2D[i*m+j];
 }
 
 
@@ -456,5 +450,5 @@ int Matrix::get_m() const{
 
 
 double Matrix::get_element(int i, int j) const{
-    return array2D[i][j]; 
+    return array2D[i*m+j]; 
 }

@@ -4,7 +4,7 @@
 
 class Matrix{
     private:
-        double** array2D;
+        double* array2D;
         int n;
         int m;
     public:
@@ -56,6 +56,11 @@ class Matrix{
         int get_n() const;
         int get_m() const;
         double get_element(int i, int j) const;
+
+
+        //iterators
+        
+
 };
 
 
