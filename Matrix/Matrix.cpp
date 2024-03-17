@@ -452,3 +452,109 @@ int Matrix::get_m() const{
 double Matrix::get_element(int i, int j) const{
     return array2D[i*m+j]; 
 }
+
+//RowView
+Matrix::RowView::RowView(double *row_, int m_):row(row_), m(m_){}
+Matrix::RowView::Iterator::Iterator(pointer ptr_):ptr(ptr_){}
+Matrix::RowView::Iterator::reference    Matrix::RowView::Iterator::operator*() const {return *ptr;}
+Matrix::RowView::Iterator::pointer      Matrix::RowView::Iterator::operator->() const {return ptr;}
+Matrix::RowView::Iterator&              Matrix::RowView::Iterator::operator++() {ptr++; return *this;};
+Matrix::RowView::Iterator               Matrix::RowView::Iterator::operator++(int) {
+    Iterator tmp = *this;
+    ++(*this);
+    return tmp;
+};
+
+bool Matrix::RowView::Iterator::operator== (const Iterator& b) const { return ptr == b.ptr; };
+bool Matrix::RowView::Iterator::operator!= (const Iterator& b) const { return ptr != b.ptr; };
+
+
+Matrix::RowView::Iterator   Matrix::RowView::begin() const {
+    return Matrix::RowView::Iterator(row);
+}
+
+
+Matrix::RowView::Iterator   Matrix::RowView::end() const {
+    return Matrix::RowView::Iterator(row+m);
+}
+
+//Rows
+Matrix::Rows::Rows(double *row_, int n_, int m_):rows(row_), n(n_), m(m_){}
+Matrix::Rows::Iterator::Iterator(pointer ptr_, int m_):ptr(ptr_), m(m_){}
+Matrix::RowView                      Matrix::Rows::Iterator::operator*() const {return RowView(ptr, m);}
+Matrix::Rows::Iterator::pointer      Matrix::Rows::Iterator::operator->() const {return ptr;}
+Matrix::Rows::Iterator&              Matrix::Rows::Iterator::operator++() {ptr+=m; return *this;};
+Matrix::Rows::Iterator               Matrix::Rows::Iterator::operator++(int) {
+    Iterator tmp = *this;
+    ++(*this);
+    return tmp;
+};
+
+
+bool Matrix::Rows::Iterator::operator== (const Iterator& b) const { return ptr == b.ptr; };
+bool Matrix::Rows::Iterator::operator!= (const Iterator& b) const { return ptr != b.ptr; };
+
+
+Matrix::Rows::Iterator   Matrix::Rows::begin() const {
+    return Matrix::Rows::Iterator(rows, m);
+}
+
+
+Matrix::Rows::Iterator   Matrix::Rows::end() const {
+    return Matrix::Rows::Iterator(rows+n*m, m);
+}
+
+//ColumnView
+Matrix::ColumnView::ColumnView(double *column_, int n_, int m_):column(column_), n(n_), m(m_){}
+Matrix::ColumnView::Iterator::Iterator(pointer ptr_, int m_):ptr(ptr_), m(m_){}
+Matrix::ColumnView::Iterator::reference    Matrix::ColumnView::Iterator::operator*() const {return *ptr;}
+Matrix::ColumnView::Iterator::pointer      Matrix::ColumnView::Iterator::operator->() const {return ptr;}
+Matrix::ColumnView::Iterator&              Matrix::ColumnView::Iterator::operator++() {ptr+=m; return *this;};
+Matrix::ColumnView::Iterator               Matrix::ColumnView::Iterator::operator++(int) {
+    Iterator tmp = *this;
+    ++(*this);
+    return tmp;
+};
+
+
+bool Matrix::ColumnView::Iterator::operator== (const Iterator& b) const { return ptr == b.ptr; };
+bool Matrix::ColumnView::Iterator::operator!= (const Iterator& b) const { return ptr != b.ptr; };
+
+
+Matrix::ColumnView::Iterator   Matrix::ColumnView::begin() const {
+    return Matrix::ColumnView::Iterator(column, m);
+}
+
+
+Matrix::ColumnView::Iterator   Matrix::ColumnView::end() const {
+    return Matrix::ColumnView::Iterator(column+n*m, m);
+}
+
+//Rows
+Matrix::Columns::Columns(double *columns_, int n_, int m_):columns(columns_), n(n_), m(m_){}
+Matrix::Columns::Iterator::Iterator(pointer ptr_, int n_, int m_):ptr(ptr_), n(n_), m(m_){}
+Matrix::ColumnView                   Matrix::Columns::Iterator::operator*() const {return ColumnView(ptr, n, m);}
+Matrix::Columns::Iterator::pointer   Matrix::Columns::Iterator::operator->() const {return ptr;}
+Matrix::Columns::Iterator&           Matrix::Columns::Iterator::operator++() {ptr++; return *this;};
+Matrix::Columns::Iterator            Matrix::Columns::Iterator::operator++(int) {
+    Iterator tmp = *this;
+    ++(*this);
+    return tmp;
+};
+
+bool Matrix::Columns::Iterator::operator== (const Iterator& b) const { return ptr == b.ptr; };
+bool Matrix::Columns::Iterator::operator!= (const Iterator& b) const { return ptr != b.ptr; };
+
+
+Matrix::Columns::Iterator   Matrix::Columns::begin() const {
+    return Matrix::Columns::Iterator(columns, n, m);
+}
+
+
+Matrix::Columns::Iterator   Matrix::Columns::end() const {
+    return Matrix::Columns::Iterator(columns+m, n, m);
+}
+
+
+Matrix::Rows    Matrix::iter_rows() const {return Rows(array2D, n, m);}
+Matrix::Columns Matrix::iter_columns() const {return Columns(array2D, n, m);}

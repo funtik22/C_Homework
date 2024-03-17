@@ -57,10 +57,129 @@ class Matrix{
         int get_m() const;
         double get_element(int i, int j) const;
 
-
         //iterators
-        
+        class RowView{
+             // я не придумал, как не передавать в RowView значения)
+            private:
+                double* row;
+                int m;
+            public:
+                RowView(double *row_, int m_);
+                class Iterator{
+                    public:
+                        using iterator_category = std::forward_iterator_tag;
+                        using difference_type   = std::ptrdiff_t;
+                        using value_type        = double;
+                        using pointer           = value_type*;  
+                        using reference         = value_type&;
+                        Iterator(pointer ptr_);
+                        reference operator*() const;
+                        pointer operator->() const;
+                        Iterator& operator++();
+                        Iterator operator++(int);
+                        bool operator== (const Iterator& b) const;
+                        bool operator!= (const Iterator& b) const;
+                    private:
+                        pointer ptr;               
+                };
+            Iterator begin() const;
+            Iterator end() const;
+        };
 
+
+        class Rows{
+            private:
+                double* rows;
+                int n;
+                int m;
+            public:
+                Rows(double *rows_, int n_, int m_);
+                class Iterator{
+                    public:
+                        using iterator_category = std::forward_iterator_tag;
+                        using difference_type   = std::ptrdiff_t;
+                        using value_type        = double;
+                        using pointer           = value_type*;  
+                        using reference         = value_type&;
+                        Iterator(pointer ptr_, int m_);
+                        RowView operator*() const;
+                        pointer operator->() const;
+                        Iterator& operator++();
+                        Iterator operator++(int);
+                        bool operator== (const Iterator& b) const;
+                        bool operator!= (const Iterator& b) const;
+                    private:
+                        pointer ptr;
+                        int n; 
+                        int m;     
+                };
+            Iterator begin() const;
+            Iterator end() const;
+        };
+
+
+        class ColumnView{
+            private:
+                double* column;
+                int m;
+                int n;
+            public:
+                ColumnView(double *column_, int m_, int n_);
+                class Iterator{
+                    public:
+                        using iterator_category = std::forward_iterator_tag;
+                        using difference_type   = std::ptrdiff_t;
+                        using value_type        = double;
+                        using pointer           = value_type*;  
+                        using reference         = value_type&;
+                        Iterator(pointer ptr_, int m_);
+                        reference operator*() const;
+                        pointer operator->() const;
+                        Iterator& operator++();
+                        Iterator operator++(int);
+                        bool operator== (const Iterator& b) const;
+                        bool operator!= (const Iterator& b) const;
+                    private:
+                        pointer ptr; 
+                        int m;              
+                };
+            Iterator begin() const;
+            Iterator end() const;
+        };
+
+
+        class Columns{
+            private:
+                double* columns;
+                int n;
+                int m;
+            public:
+                Columns(double *columns_, int n_, int m_);
+                
+                class Iterator{
+                    public:
+                        using iterator_category = std::forward_iterator_tag;
+                        using difference_type   = std::ptrdiff_t;
+                        using value_type        = double;
+                        using pointer           = value_type*;  
+                        using reference         = value_type&;
+                        Iterator(pointer ptr_, int n_, int m_);
+                        ColumnView operator*() const;
+                        pointer operator->() const;
+                        Iterator& operator++();
+                        Iterator operator++(int);
+                        bool operator== (const Iterator& b) const;
+                        bool operator!= (const Iterator& b) const;
+                    private:
+                        pointer ptr;
+                        int n; 
+                        int m;     
+                };
+            Iterator begin() const;
+            Iterator end() const;
+        };
+        Rows iter_rows() const;
+        Columns iter_columns() const;
 };
 
 
