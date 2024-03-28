@@ -44,7 +44,7 @@ class Matrix{
         Matrix sub(const Matrix& other) const;
         Matrix div(const Matrix& other) const;
         Matrix div(double d) const;
-        Matrix T() const;
+        Matrix transpose() const;
         Matrix inverse() const;
         double det() const;
         Matrix minor(int i, int j) const;
@@ -59,12 +59,11 @@ class Matrix{
 
         //iterators
         class RowView{
-             // я не придумал, как не передавать в RowView значения)
             private:
                 double* row;
                 int m;
             public:
-                RowView(double *row_, int m_);
+                RowView(double *row_, int m_):row(row_), m(m_){};
                 class Iterator{
                     public:
                         using iterator_category = std::forward_iterator_tag;
@@ -72,18 +71,22 @@ class Matrix{
                         using value_type        = double;
                         using pointer           = value_type*;  
                         using reference         = value_type&;
-                        Iterator(pointer ptr_);
-                        reference operator*() const;
-                        pointer operator->() const;
-                        Iterator& operator++();
-                        Iterator operator++(int);
-                        bool operator== (const Iterator& b) const;
-                        bool operator!= (const Iterator& b) const;
+                        Iterator(pointer ptr_):ptr(ptr_){};
+                        reference operator*() const{return *ptr;};
+                        pointer operator->() const{return ptr;};
+                        Iterator& operator++(){ptr++; return *this;};
+                        Iterator operator++(int){
+                            Iterator tmp = *this;
+                            ++(*this);
+                            return tmp;
+                        };
+                        bool operator== (const Iterator& b) const {return ptr == b.ptr;};
+                        bool operator!= (const Iterator& b) const {return ptr != b.ptr;};
                     private:
                         pointer ptr;               
                 };
-            Iterator begin() const;
-            Iterator end() const;
+            Iterator begin() const {return Matrix::RowView::Iterator(row);};
+            Iterator end() const {return Matrix::RowView::Iterator(row+m);};
         };
 
 
@@ -93,7 +96,7 @@ class Matrix{
                 int n;
                 int m;
             public:
-                Rows(double *rows_, int n_, int m_);
+                Rows(double *rows_, int n_, int m_):rows(rows_), n(n_), m(m_){};
                 class Iterator{
                     public:
                         using iterator_category = std::forward_iterator_tag;
@@ -101,20 +104,24 @@ class Matrix{
                         using value_type        = double;
                         using pointer           = value_type*;  
                         using reference         = value_type&;
-                        Iterator(pointer ptr_, int m_);
-                        RowView operator*() const;
-                        pointer operator->() const;
-                        Iterator& operator++();
-                        Iterator operator++(int);
-                        bool operator== (const Iterator& b) const;
-                        bool operator!= (const Iterator& b) const;
+                        Iterator(pointer ptr_, int m_):ptr(ptr_), m(m_){};
+                        RowView operator*() const {return RowView(ptr, m);};
+                        pointer operator->() const {return ptr;};
+                        Iterator& operator++() {ptr+=m; return *this;};
+                        Iterator operator++(int) {
+                            Iterator tmp = *this;
+                            ++(*this);
+                            return tmp;
+                        };
+                        bool operator== (const Iterator& b) const { return ptr == b.ptr; };
+                        bool operator!= (const Iterator& b) const { return ptr != b.ptr; };
                     private:
                         pointer ptr;
                         int n; 
                         int m;     
                 };
-            Iterator begin() const;
-            Iterator end() const;
+            Iterator begin() const {return Matrix::Rows::Iterator(rows, m);};
+            Iterator end() const {return Matrix::Rows::Iterator(rows+n*m, m);};
         };
 
 
@@ -124,7 +131,7 @@ class Matrix{
                 int m;
                 int n;
             public:
-                ColumnView(double *column_, int m_, int n_);
+                ColumnView(double *column_, int m_, int n_):column(column_), n(n_), m(m_){};
                 class Iterator{
                     public:
                         using iterator_category = std::forward_iterator_tag;
@@ -132,19 +139,23 @@ class Matrix{
                         using value_type        = double;
                         using pointer           = value_type*;  
                         using reference         = value_type&;
-                        Iterator(pointer ptr_, int m_);
-                        reference operator*() const;
-                        pointer operator->() const;
-                        Iterator& operator++();
-                        Iterator operator++(int);
-                        bool operator== (const Iterator& b) const;
-                        bool operator!= (const Iterator& b) const;
+                        Iterator(pointer ptr_, int m_):ptr(ptr_), m(m_){};
+                        reference operator*() const {return *ptr;};
+                        pointer operator->() const {return ptr;};
+                        Iterator& operator++() {ptr+=m; return *this;};
+                        Iterator operator++(int){
+                            Iterator tmp = *this;
+                            ++(*this);
+                            return tmp;
+                        };
+                        bool operator== (const Iterator& b) const { return ptr == b.ptr; };
+                        bool operator!= (const Iterator& b) const { return ptr != b.ptr; };
                     private:
                         pointer ptr; 
                         int m;              
                 };
-            Iterator begin() const;
-            Iterator end() const;
+            Iterator begin() const {return Matrix::ColumnView::Iterator(column, m);};
+            Iterator end() const {return Matrix::ColumnView::Iterator(column+n*m, m);};
         };
 
 
@@ -154,7 +165,7 @@ class Matrix{
                 int n;
                 int m;
             public:
-                Columns(double *columns_, int n_, int m_);
+                Columns(double *columns_, int n_, int m_):columns(columns_), n(n_), m(m_){};
                 
                 class Iterator{
                     public:
@@ -163,23 +174,27 @@ class Matrix{
                         using value_type        = double;
                         using pointer           = value_type*;  
                         using reference         = value_type&;
-                        Iterator(pointer ptr_, int n_, int m_);
-                        ColumnView operator*() const;
-                        pointer operator->() const;
-                        Iterator& operator++();
-                        Iterator operator++(int);
-                        bool operator== (const Iterator& b) const;
-                        bool operator!= (const Iterator& b) const;
+                        Iterator(pointer ptr_, int n_, int m_):ptr(ptr_), n(n_), m(m_){};
+                        ColumnView operator*() const {return ColumnView(ptr, n, m);};
+                        pointer operator->() const {return ptr;};
+                        Iterator& operator++() {ptr++; return *this;};;
+                        Iterator operator++(int){
+                            Iterator tmp = *this;
+                            ++(*this);
+                            return tmp;
+                        };
+                        bool operator== (const Iterator& b) const { return ptr == b.ptr; };
+                        bool operator!= (const Iterator& b) const { return ptr != b.ptr; };
                     private:
                         pointer ptr;
                         int n; 
                         int m;     
                 };
-            Iterator begin() const;
-            Iterator end() const;
+            Iterator begin() const {return Matrix::Columns::Iterator(columns, n, m);};
+            Iterator end() const {return Matrix::Columns::Iterator(columns+m, n, m);};
         };
-        Rows iter_rows() const;
-        Columns iter_columns() const;
+        Rows iter_rows() const {return Rows(array2D, n, m);};
+        Columns iter_columns() const {return Columns(array2D, n, m);};
 };
 
 

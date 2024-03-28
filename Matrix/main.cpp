@@ -20,7 +20,7 @@ int main(){
   B.print();
   std::cout<<std::endl;
   
-  Matrix C = ((A * B) - (B / A.T() * A.sumElements()) + (B.T() * A / B.sumElements()));
+  Matrix C = ((A * B) - (B / A.transpose() * A.sumElements()) + (B.transpose() * A / B.sumElements()));
   std::cout<<C;
   #endif
   
