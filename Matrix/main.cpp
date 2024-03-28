@@ -32,7 +32,6 @@ int main(){
       {3, 4, 5},
       {6, 7, 8}
   };
-
   for (auto&& row : m.iter_rows()) {
     for (auto&& elem : row) {
       std::cout << elem << ' ';
