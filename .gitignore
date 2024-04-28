@@ -1,6 +1,9 @@
-*.txt
+task*.txt
+*task.txt
+cpp_practice1.txt
 *.exe
 *.pptx
 .vscode/
 tempCodeRunnerFile.cpp
 test.cpp
+build/
