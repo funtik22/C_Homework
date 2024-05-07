@@ -13,8 +13,6 @@
 #include "ApexPredator.hpp"
 
 Ocean::Ocean(size_t rows_, size_t cols_):rows(rows_), cols(cols_){
-    //enum class Entities {EMPTY, STONE, REEF};
-
     for(size_t i = 0; i<rows; i++){
         for(size_t j = 0; j<cols; j++){
             ptrObject obj = nullptr;
@@ -28,7 +26,7 @@ Ocean::Ocean(size_t rows_, size_t cols_):rows(rows_), cols(cols_){
              else if(random <= 6){
                 obj = Prey::create();
             }
-            else if(random <= 8){
+            else if(random <= 9){
                 obj = Predator::create();
             }
             else if(random <= 10){
@@ -48,7 +46,6 @@ Ocean::ptrCell Ocean::getCell(int i, int j){
       }
       i%=rows;
       j%=cols;
-      //std::cout<<"i="<<i<<" j="<<j<<std::endl;
       return data[i*cols+j];
 };
 
@@ -58,12 +55,12 @@ void Ocean::print(){
             for(size_t i = 0; i<rows; i++){
                 for(size_t j = 0; j<cols; j++){
                     if(data[i*cols+j].get()->isEmpty()){
-                        std::cout<<std::setw(6)<<"E";
+                        std::cout<<std::setw(3)<<" ";
                     }
                     else{
                         Cell *cell = data[i*cols+j].get();
                         Object *obj = cell->getObj().get();
-                        std::cout<<std::setw(3)<<obj->getIcon()<<std::setw(3)<<obj->getEvalutionTime();
+                        std::cout<<std::setw(3)<<obj->getIcon();
                     }
                 }
                 std::cout<<std::endl;
@@ -74,23 +71,13 @@ void Ocean::tick(){
     std::vector<ptrAction> actions;
     for(size_t i = 0; i<rows; i++){
             for(size_t j = 0; j<cols; j++){
-                
                 if(data[i*cols+j].get()->isEmpty()){
                     continue;
-                }
-        
-                
+                }    
                 Cell *cell = data[i*cols+j].get();
                 Object *obj = cell->getObj().get();
                 Neighbourhood n(i, j, *obj, *this);
-                
                 actions.push_back(obj->tick(i, j, n));
-                
-                //std::cout<<i<<" "<<j<<std::endl;
-                // for(ptrCell cell:neigbours){
-                //     std::cout<<cell.get()->get_i()<<" "<<cell.get()->get_j()<<std::endl;
-                // }
-                // std::cout<<std::endl;
             }
             
     }

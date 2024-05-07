@@ -18,6 +18,9 @@ void Neighbourhood::generate_neighbourhood(int i, int j, int radious){
     }
     for(std::pair<int, int> p: move){
              Cell* cell = ocean.getCell(p.first, p.second).get();
+             if(p.first == i && p.second == j){
+                continue;
+             }
              if(cell->isEmpty()){
                 neighbours["empty"].insert(ocean.getCell(p.first, p.second));
              }
@@ -27,8 +30,6 @@ void Neighbourhood::generate_neighbourhood(int i, int j, int radious){
              }
              generate_neighbourhood(p.first, p.second, radious-1); 
           }
-    neighbours[obj.getName()].erase(ocean.getCell(i, j));
-    
 };
 
 
@@ -57,17 +58,12 @@ bool Neighbourhood::searchNearbyObjects(int i, int j, std::string nameObject){
 
 Neighbourhood::ptrCell Neighbourhood::getFirstNeighbour(std::string nameObject) 
     {   
-        // for(ptrCell pCell:neighbours["empty"]){
-        //     std::cout<<pCell.get()->get_i()<<" "<<pCell.get()->get_j()<<std::endl;
-        // }
-        // std::cout<<"finish"<<std::endl;
-        if(neighbours.count(nameObject)==0){
+        if(neighbours[nameObject].size()<=0){
             return nullptr;
         }
         return *(neighbours[nameObject].begin());
     }
 
 std::set<Neighbourhood::ptrCell> Neighbourhood::getNeighbours(std::string nameObject){
-
     return neighbours[nameObject];
 };

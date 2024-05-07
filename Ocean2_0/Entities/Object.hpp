@@ -19,8 +19,8 @@ class Object{
         char icon;
         int evalutionTime;
         int liveTime = 0;
+        int deathTime;
         using ptrCell = std::shared_ptr<Cell>;
-        //using Neighbourhood = std::set<ptrCell>;
         using ptrAction = std::shared_ptr<Action>;
         using ptrObject = std::shared_ptr<Object>;
     public:
@@ -34,6 +34,7 @@ class Object{
         void setEvalutionTime(int _time) {evalutionTime = _time;}
         long long getId() const {return id;}
         int getLiveTime() const {return liveTime;}
+        int getDeathTime() const {return deathTime;}
 };
 
 

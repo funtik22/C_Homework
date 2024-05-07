@@ -13,6 +13,9 @@ Evalution::ptrEvalution Evalution::Create(int i_, int j_, Object& obj_){
 
 bool Evalution::apply(Ocean& ocean) const{
         Cell *cell = ocean.getCell(i, j).get();
+        if(cell->isEmpty()){
+            return false;
+        }
         if(obj.getName() == Stone::NAME){
             cell->setObj(Reef::create());
         }
@@ -21,5 +24,6 @@ bool Evalution::apply(Ocean& ocean) const{
         }
         if(obj.getName() == Prey::NAME){
         }
+        std::cout<<"EVOLUTION "<<i<<" "<<j<<std::endl;
         return true;
 }

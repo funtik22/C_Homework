@@ -12,9 +12,10 @@ Move::ptrMove Move::Create(int i_, int j_, std::pair<int, int> destination_ , Ob
 bool Move::apply(Ocean& ocean) const{
         Cell *cell = ocean.getCell(i, j).get();
         Cell *dCell = ocean.getCell(destination.first, destination.second).get();
-        if(dCell->isEmpty() && cell->getObj()->getId() == obj.getId()){
+        if(!cell->isEmpty() && dCell->isEmpty() && cell->getObj()->getId() == obj.getId()){
             dCell->setObj(cell->getObj());
             cell->setObj(nullptr);
+            std::cout<<"MOVE "<<i<<" "<<j<<" "<<destination.first<<" "<<destination.second<<std::endl;
             return true;
         }
         return false;

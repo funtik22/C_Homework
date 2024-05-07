@@ -13,11 +13,12 @@ set(SRC
       ${PROJECT_SOURCE_DIR}/Entities/Predator.cpp
       ${PROJECT_SOURCE_DIR}/Entities/ApexPredator.cpp
       ${PROJECT_SOURCE_DIR}/Entities/Neighbourhood.cpp
-      ${PROJECT_SOURCE_DIR}/Actions/Action.cpp
       ${PROJECT_SOURCE_DIR}/Actions/Evalution.cpp
       ${PROJECT_SOURCE_DIR}/Actions/NoAction.cpp
       ${PROJECT_SOURCE_DIR}/Actions/Death.cpp
       ${PROJECT_SOURCE_DIR}/Actions/Move.cpp
+      ${PROJECT_SOURCE_DIR}/Actions/Mating.cpp
+      ${PROJECT_SOURCE_DIR}/Actions/Eating.cpp
       
    )
 
@@ -36,6 +37,8 @@ set(HEADERS
       ${PROJECT_SOURCE_DIR}/Actions/NoAction.hpp
       ${PROJECT_SOURCE_DIR}/Actions/Death.hpp
       ${PROJECT_SOURCE_DIR}/Actions/Move.hpp
+      ${PROJECT_SOURCE_DIR}/Actions/Mating.hpp
+      ${PROJECT_SOURCE_DIR}/Actions/Eating.hpp
    )
 
 add_executable(Ocean ${SRC} ${HEADERS})
