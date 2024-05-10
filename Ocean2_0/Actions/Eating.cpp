@@ -24,7 +24,9 @@ bool Eating::apply(Ocean& ocean) const {
             obj2.getId() == cellObj2->getObj()->getId()){
             cellObj2->setObj(cellObj1->getObj());
             cellObj1->setObj(nullptr);
+            #ifdef PRINT_ACTIONS
             std::cout<<"EATING "<<obj1C.first<<" "<<obj1C.second<<" "<<obj2C.first<<" "<<obj2C.second<<std::endl;
+            #endif
             return true;
         }
     return false;

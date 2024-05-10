@@ -105,6 +105,6 @@ Predator::ptrAction Predator::tick(int i, int j, Neighbourhood& n){
     }
 
 
-
+    // No ACTION
     return NoAction::Create(*this);
 }

@@ -30,15 +30,21 @@ bool Mating::apply(Ocean& ocean) const {
        ){   
             if(obj.getName() == Prey::NAME){
                 cellNewObj->setObj(Prey::create(obj.getDeathTime(), obj2.getDeathTime()));
+                 #ifdef PRINT_ACTIONS
                  std::cout<<"NEW PREY "<<newObjC.first<<" "<<newObjC.second<<std::endl;
+                 #endif
             }
             if(obj.getName() == Predator::NAME){
                 cellNewObj->setObj(Predator::create(obj.getDeathTime(), obj2.getDeathTime()));
+                 #ifdef PRINT_ACTIONS
                  std::cout<<"NEW PREDATOR "<<newObjC.first<<" "<<newObjC.second<<std::endl;
+                 #endif
             }
             if(obj.getName() == ApexPredator::NAME){
                 cellNewObj->setObj(ApexPredator::create());
+                 #ifdef PRINT_ACTIONS
                  std::cout<<"NEW APEXPREDATOR "<<newObjC.first<<" "<<newObjC.second<<std::endl;
+                 #endif
             }
 
           

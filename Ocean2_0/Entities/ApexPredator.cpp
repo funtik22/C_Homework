@@ -100,5 +100,8 @@ ApexPredator::ptrAction ApexPredator::tick(int i, int j, Neighbourhood& n){
         std::pair<int, int> destination{cell->get_i(), cell->get_j()};
         return Move::Create(i, j, destination, *this);
     }
+
+
+    //NO ACTION
     return NoAction::Create(*this);
 }

@@ -33,6 +33,7 @@ void Neighbourhood::generate_neighbourhood(int i, int j, int radious){
 };
 
 
+// This function return true if there is the object (nameObject) in radius one for the sell (i, j)
 bool Neighbourhood::searchNearbyObjects(int i, int j, std::string nameObject){
      std::vector<std::pair<int, int>> move{  {i, j+1}, {i+1, j+1}, 
                                             {i+1, j}, {i+1, j-1}, {i, j-1},
@@ -56,6 +57,8 @@ bool Neighbourhood::searchNearbyObjects(int i, int j, std::string nameObject){
     return false;
 }
 
+
+// This function return sell of the first neighbour with 'nameObjct' or nullptr 
 Neighbourhood::ptrCell Neighbourhood::getFirstNeighbour(std::string nameObject) 
     {   
         if(neighbours[nameObject].size()<=0){

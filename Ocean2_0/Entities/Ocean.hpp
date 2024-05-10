@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <set>
+#include <map>
 
 class Cell;
 class Action;
@@ -20,6 +21,7 @@ class Ocean{
         size_t rows;
         size_t cols;
         std::vector<ptrCell> data;
+        std::map<std::string, int> numberEntities;
         
     public:
         Ocean(size_t rows_, size_t cols_);

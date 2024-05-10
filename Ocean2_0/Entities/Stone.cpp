@@ -30,7 +30,7 @@ Stone::~Stone(){};
 
 
 Stone::Stone(const Stone &other){
-         radius = other.radius;
-            icon = other.icon;
-            evalutionTime = other.evalutionTime;   
+    radius = other.radius;
+    icon = other.icon;
+    evalutionTime = other.evalutionTime;   
 }

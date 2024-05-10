@@ -1,18 +1,30 @@
 #include "Entities/Ocean.hpp"
-
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include "constants.hpp"
+
+
+void clearConsole(){
+    #if defined _WIN32
+        system("cls");
+    #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+        system("clear"); 
+    #elif defined (__APPLE__)
+        system("clear");
+    #endif
+}
 
 
 int main(){
-    std::system("cls");
     Ocean ocean(10, 10);
-    for(int i = 0; i<150; i++){
+    //ocean.print();
+    //clearConsole();
+    for(int i = 0;;i++){
+        clearConsole();
         ocean.print();
         ocean.tick();
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::system("cls");
+        std::this_thread::sleep_for(std::chrono::seconds(constants::SPEED_S));
     }
     std::cout<<"FINISH";
     return 0;

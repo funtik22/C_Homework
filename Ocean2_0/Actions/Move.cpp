@@ -15,7 +15,9 @@ bool Move::apply(Ocean& ocean) const{
         if(!cell->isEmpty() && dCell->isEmpty() && cell->getObj()->getId() == obj.getId()){
             dCell->setObj(cell->getObj());
             cell->setObj(nullptr);
+            #ifdef PRINT_ACTIONS
             std::cout<<"MOVE "<<i<<" "<<j<<" "<<destination.first<<" "<<destination.second<<std::endl;
+            #endif
             return true;
         }
         return false;

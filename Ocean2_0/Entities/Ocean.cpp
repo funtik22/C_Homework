@@ -1,6 +1,6 @@
 #include "Ocean.hpp"
 #include <iostream>
-
+#include <vector>
 #include "Cell.hpp"
 #include "Stone.hpp"
 #include "Object.hpp"
@@ -11,6 +11,7 @@
 #include "Neighbourhood.hpp"
 #include "Predator.hpp"
 #include "ApexPredator.hpp"
+
 
 Ocean::Ocean(size_t rows_, size_t cols_):rows(rows_), cols(cols_){
     for(size_t i = 0; i<rows; i++){
@@ -28,14 +29,19 @@ Ocean::Ocean(size_t rows_, size_t cols_):rows(rows_), cols(cols_){
             }
             else if(random <= 9){
                 obj = Predator::create();
+               
             }
             else if(random <= 10){
                 obj = ApexPredator::create();
+    
+            }
+            else{
             }
             data.push_back(Cell::create(obj, i, j));
         }
     }
 };
+
 
 Ocean::ptrCell Ocean::getCell(int i, int j){
       if(i<0){
@@ -48,7 +54,6 @@ Ocean::ptrCell Ocean::getCell(int i, int j){
       j%=cols;
       return data[i*cols+j];
 };
-
 
 
 void Ocean::print(){
@@ -67,7 +72,13 @@ void Ocean::print(){
             }
         }
 
+
 void Ocean::tick(){
+    std::vector<std::string> entities = {"empty", Predator::NAME, Prey::NAME, ApexPredator::NAME, 
+                                                                        Stone::NAME, Reef::NAME};
+    for(auto &&entity:entities){
+        numberEntities[entity] = 0; 
+    } 
     std::vector<ptrAction> actions;
     for(size_t i = 0; i<rows; i++){
             for(size_t j = 0; j<cols; j++){
@@ -76,6 +87,7 @@ void Ocean::tick(){
                 }    
                 Cell *cell = data[i*cols+j].get();
                 Object *obj = cell->getObj().get();
+                numberEntities[obj->getName()]++;
                 Neighbourhood n(i, j, *obj, *this);
                 actions.push_back(obj->tick(i, j, n));
             }
@@ -85,4 +97,10 @@ void Ocean::tick(){
         Action *act = action.get();
         bool z = act->apply(*this); 
     }
+    if(numberEntities[Prey::NAME]+numberEntities[Predator::NAME] == 0
+        || numberEntities[ApexPredator::NAME] + numberEntities[Predator::NAME] == 0
+        || numberEntities[ApexPredator::NAME] + numberEntities[Prey::NAME] == 0){
+            std::cout<<"FINISH";
+            exit(0);
+        }
 }

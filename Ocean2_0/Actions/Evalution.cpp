@@ -24,6 +24,8 @@ bool Evalution::apply(Ocean& ocean) const{
         }
         if(obj.getName() == Prey::NAME){
         }
+        #ifdef PRINT_ACTIONS
         std::cout<<"EVOLUTION "<<i<<" "<<j<<std::endl;
+        #endif
         return true;
 }

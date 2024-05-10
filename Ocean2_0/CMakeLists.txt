@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(OCEAN)
 
+set(PRINT_ACTIONS ON CACHE BOOL "Print actions")
+
 set(SRC
       ${PROJECT_SOURCE_DIR}/Simulations.cpp
       ${PROJECT_SOURCE_DIR}/Entities/Cell.cpp
@@ -40,5 +42,9 @@ set(HEADERS
       ${PROJECT_SOURCE_DIR}/Actions/Mating.hpp
       ${PROJECT_SOURCE_DIR}/Actions/Eating.hpp
    )
+
+if(PRINT_ACTIONS)
+   add_compile_definitions(PRINT_ACTIONS)
+endif()
 
 add_executable(Ocean ${SRC} ${HEADERS})

@@ -52,6 +52,9 @@ Prey::ptrAction Prey::tick(int i, int j, Neighbourhood& n){
     if (deathTime == liveTime){
         return Death::Create(i, j, *this);
     }
+
+
+    //MATING
     if(adult == true && n.getFirstNeighbour("Prey")!=nullptr
                  && n.getFirstNeighbour("ApexPredator")==nullptr &&
                  n.getFirstNeighbour("Predator") == nullptr && 
@@ -73,11 +76,17 @@ Prey::ptrAction Prey::tick(int i, int j, Neighbourhood& n){
             return Move::Create(i, j, destination, *this); 
         }
     }
+
+
+    //MOVING
     ptrCell pCell = n.getFirstNeighbour("empty");
     if(pCell != nullptr){
         Cell *cell = pCell.get();
         std::pair<int, int> destination{cell->get_i(), cell->get_j()};
         return Move::Create(i, j, destination, *this);
-    } 
+    }
+
+
+    //NO ACTION
     return NoAction::Create(*this);
 }
