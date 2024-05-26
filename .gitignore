@@ -4,6 +4,7 @@ cpp_practice1.txt
 *.exe
 *.pptx
 .vscode/
+.VSCodeCounter/
 tempCodeRunnerFile.cpp
 test.cpp
 build/
