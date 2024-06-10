@@ -37,6 +37,7 @@ Ocean::Ocean(size_t rows_, size_t cols_):rows(rows_), cols(cols_){
             }
             else{
             }
+            std::cout<<"---------"<<std::endl;
             data.push_back(Cell::create(obj, i, j));
         }
     }
@@ -90,6 +91,7 @@ void Ocean::tick(){
                 numberEntities[obj->getName()]++;
                 Neighbourhood n(i, j, *obj, *this);
                 actions.push_back(obj->tick(i, j, n));
+                   
             }
             
     }

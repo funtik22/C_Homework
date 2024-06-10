@@ -18,14 +18,13 @@ void clearConsole(){
 
 int main(){
     Ocean ocean(10, 10);
-    //ocean.print();
-    //clearConsole();
+    ocean.print();
+    clearConsole();
     for(int i = 0;;i++){
         clearConsole();
         ocean.print();
         ocean.tick();
         std::this_thread::sleep_for(std::chrono::seconds(constants::SPEED_S));
     }
-    std::cout<<"FINISH";
     return 0;
 }

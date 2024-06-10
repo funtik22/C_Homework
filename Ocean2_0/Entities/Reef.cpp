@@ -17,8 +17,6 @@ Reef::ReefPtr Reef::create(){
     return Reef::ReefPtr(new Reef());
 }
 
-Reef::~Reef(){};
-
 
 Reef::ptrAction Reef::tick(int i, int j, Neighbourhood& n){
     liveTime++;

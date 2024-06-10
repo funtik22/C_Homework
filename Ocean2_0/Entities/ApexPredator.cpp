@@ -9,6 +9,7 @@
 #include "Cell.hpp"
 #include "Neighbourhood.hpp"
 
+
 std::string ApexPredator::NAME = "ApexPredator";
 
 ApexPredator::ApexPredator(){
@@ -41,7 +42,7 @@ ApexPredator::ApexPredatorPtr ApexPredator::create(int parentTime1, int parentTi
     return ApexPredator::ApexPredatorPtr(new ApexPredator(parentTime1, parentTime2));
 }
 
-ApexPredator::~ApexPredator(){};
+//ApexPredator::~ApexPredator(){};
 
 ApexPredator::ptrAction ApexPredator::tick(int i, int j, Neighbourhood& n){
    

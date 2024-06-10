@@ -41,8 +41,6 @@ Prey::PreyPtr Prey::create(int parentTime1, int parentTime2){
 }
 
 
-Prey::~Prey(){};
-
 Prey::ptrAction Prey::tick(int i, int j, Neighbourhood& n){
     liveTime++;
     deathTime--;
@@ -68,6 +66,7 @@ Prey::ptrAction Prey::tick(int i, int j, Neighbourhood& n){
             *this, *(obj2Cell.get()->getObj().get()));
   
     }
+
     for(ptrCell pCell:n.getNeighbours("empty")){
         Cell *cell = pCell.get();
         if(!(n.searchNearbyObjects(cell->get_i(), cell->get_j(), "Predator")) &&

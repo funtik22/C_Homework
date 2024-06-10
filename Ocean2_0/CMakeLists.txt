@@ -41,6 +41,8 @@ set(HEADERS
       ${PROJECT_SOURCE_DIR}/Actions/Move.hpp
       ${PROJECT_SOURCE_DIR}/Actions/Mating.hpp
       ${PROJECT_SOURCE_DIR}/Actions/Eating.hpp
+      ${PROJECT_SOURCE_DIR}/MemoryPool/MemPool.hpp
+      ${PROJECT_SOURCE_DIR}/MemoryPool/MixinPool.hpp
    )
 
 if(PRINT_ACTIONS)

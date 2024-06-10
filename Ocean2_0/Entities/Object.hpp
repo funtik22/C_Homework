@@ -11,7 +11,7 @@ class Action;
 class Cell;
 class Neighbourhood;
 
-class Object{
+class Object {
     protected:
         long long id;
         std::string name;
@@ -25,7 +25,7 @@ class Object{
         using ptrObject = std::shared_ptr<Object>;
     public:
         static long long NUMBER_OBJECTS;
-        virtual ~Object() = default;
+        //virtual ~Object() = default;
         virtual ptrAction tick(int i, int j, Neighbourhood& n) = 0;
         int getRadius() const {return radius;};
         char getIcon() const {return icon;};

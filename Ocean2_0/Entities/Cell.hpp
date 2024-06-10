@@ -4,10 +4,11 @@
 
 #include <memory>
 #include <iostream>
+#include "../MemoryPool/MixinPool.hpp"
 
 class Object;
 
-class Cell{
+class Cell : MixinPool<Cell>{
     private:
         using ptrObj = std::shared_ptr<Object>;
         using ptrCell = std::shared_ptr<Cell>;
@@ -15,8 +16,11 @@ class Cell{
         size_t i;
         size_t j;
     public:
+        using MixinPool<Cell>::operator new;
+        using MixinPool<Cell>::operator delete;
         static ptrCell create(ptrObj obj_, size_t i_, size_t j_);
         Cell(ptrObj obj_, size_t i_, size_t j_):obj(obj_), i(i_), j(j_){};
+        Cell(){};
         ptrObj getObj() const {return obj;};
         void setObj(ptrObj obj_);
         bool operator<(const Cell& other);

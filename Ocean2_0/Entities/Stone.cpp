@@ -3,6 +3,7 @@
 #include "../Actions/Evalution.hpp"
 #include "../Actions/NoAction.hpp"
 #include "Stone.hpp"
+#include "../MemoryPool/MixinPool.hpp"
 
 std::string Stone::NAME = "stone";
 
@@ -15,6 +16,7 @@ Stone::Stone(){
 }
 
 Stone::stonePtr Stone::create(){
+    //return MixinPool<Stone>::get_shared();
     return Stone::stonePtr(new Stone());
 }
 
@@ -25,8 +27,6 @@ Stone::ptrAction Stone::tick(int i, int j, Neighbourhood& n){
     }
     return NoAction::Create(*this);
 }
-
-Stone::~Stone(){};
 
 
 Stone::Stone(const Stone &other){

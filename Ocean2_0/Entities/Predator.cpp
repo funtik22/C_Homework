@@ -42,7 +42,6 @@ Predator::PredatorPtr Predator::create(int parentTime1, int parentTime2){
     return Predator::PredatorPtr(new Predator(parentTime1, parentTime2));
 }
 
-Predator::~Predator(){};
 
 Predator::ptrAction Predator::tick(int i, int j, Neighbourhood& n){
     
