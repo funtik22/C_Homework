@@ -1,6 +1,8 @@
 task*.txt
 *task.txt
 cpp_practice1.txt
+pool (1).md
+questions.txt
 *.exe
 *.pptx
 .vscode/
@@ -8,5 +10,4 @@ cpp_practice1.txt
 tempCodeRunnerFile.cpp
 test.cpp
 build/
-MemoryPool/pool (1).md
-MemoryPool/questions.txt
+
