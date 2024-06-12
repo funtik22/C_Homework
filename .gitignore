@@ -1,6 +1,13 @@
-*.txt
+task*.txt
+*task.txt
+cpp_practice1.txt
+pool (1).md
+questions.txt
 *.exe
 *.pptx
 .vscode/
+.VSCodeCounter/
 tempCodeRunnerFile.cpp
 test.cpp
+build/
+
